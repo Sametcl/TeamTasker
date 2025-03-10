@@ -29,20 +29,22 @@ namespace TeamTasker.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "bu alanlare bos birakilamaz");
                 return View(model);
             }
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            AppUser? user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
             {
                 await _signInManager.SignOutAsync();
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, true);
                 if (result.Succeeded)
                 {
+                    ViewData["FullName"] = user?.FullName;
                     return RedirectToAction("Index","Task");
                 }
             }
-
+            ModelState.AddModelError(string.Empty, "Gecersiz sifre");
             return View(model);
         }
 
@@ -73,6 +75,13 @@ namespace TeamTasker.Controllers
                 ModelState.AddModelError("", error.Description);
             }
             return View(model);
+        }
+        
+
+        public async Task<IActionResult> logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login","Account");
         }
 
     }

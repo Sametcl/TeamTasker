@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TeamTasker.Controllers
 {
+    [Authorize]
     public class TaskController : Controller
     {
         [HttpGet]
@@ -9,5 +11,8 @@ namespace TeamTasker.Controllers
         {
             return View();
         }
+
+
+
     }
 }

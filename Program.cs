@@ -15,19 +15,36 @@ builder.Services.AddDbContext<TaskDbContext>(optionsAction =>
 });
 
 //Identity
-builder.Services.AddIdentity<AppUser, AppRole>()
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric=false; //alfabede olmayan karakter kullanam zorunlulugu 
+    options.Password.RequireDigit=false; //rakam kullanama zorunlulugu 
+    options.Password.RequireUppercase=false; //kucuk harf kullanama zorunlulugu 
+    options.Password.RequireUppercase=false; //buyuk harf kullanama zorunlulugu 
+    options.Password.RequiredLength=1; //sifre uzunlugu en az olma siniri 
+
+    options.SignIn.RequireConfirmedEmail=false; // email dogrulama
+
+    options.User.RequireUniqueEmail=true;// email benzersiz yapma username icin bu ozellik yok mutalka unique olmak zorunda 
+
+})
     .AddEntityFrameworkStores<TaskDbContext>()
     .AddDefaultTokenProviders();
 
-
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
+    
+    options.LoginPath = "/Account/Login"; 
+    options.AccessDeniedPath = "/Account/AccessDenied"; 
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -40,6 +57,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();
