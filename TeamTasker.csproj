@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\sneat\**" />
+    <Content Remove="wwwroot\sneat\**" />
+    <EmbeddedResource Remove="wwwroot\sneat\**" />
+    <None Remove="wwwroot\sneat\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.13">
@@ -22,12 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Concrate\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\sneat\.github\workflows\handle-new-issue-comment.yml" />
-    <None Include="wwwroot\sneat\.github\workflows\handle-new-issue.yml" />
-    <None Include="wwwroot\sneat\.github\workflows\issue-staler.yml" />
   </ItemGroup>
 
 </Project>

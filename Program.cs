@@ -34,8 +34,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    options.SlidingExpiration = true;
-    
+    options.SlidingExpiration = true;// Kullanýcý aktifse süre uzar
     options.LoginPath = "/Account/Login"; 
     options.AccessDeniedPath = "/Account/AccessDenied"; 
 });

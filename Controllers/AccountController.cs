@@ -22,6 +22,11 @@ namespace TeamTasker.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User?.Identity?.IsAuthenticated == true) // Kullanıcı zaten giriş yapmışsa
+            {
+                return RedirectToAction("Index", "Task"); // Direkt anasayfaya yönlendir
+            }
+
             return View();
         }
         [HttpPost]
@@ -78,7 +83,7 @@ namespace TeamTasker.Controllers
         }
         
 
-        public async Task<IActionResult> logout()
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login","Account");
