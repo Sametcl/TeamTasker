@@ -20,25 +20,5 @@ namespace TeamTasker.Controllers
         {
             return View();
         }
-
-
-
-        [HttpGet]
-        public IActionResult AddRole()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task< IActionResult> AddRole(string roleName)
-        {
-            AppRole appRole = new() {Name=roleName };
-            IdentityResult result = await _roleManager.CreateAsync(appRole);
-            if (result.Succeeded)
-            {
-                return View();
-            }
-            return View(roleName);
-        }
     }
 }

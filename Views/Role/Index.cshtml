@@ -1,0 +1,66 @@
+﻿@model RoleViewModel
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Role Ekle</h4>
+                    <br />
+                    <div class="basic-form">
+                        <form action="AddRole" method="post">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-default" name="roleName" placeholder="Role Adi">
+                            </div>
+                            <button class="btn btn-outline-success" type="submit">Kaydet</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h4>Rol Listesi</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Rol Adi</th>
+                                    <th>Rol Sahipleri</th>
+                                    <th>Islemler</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var role in Model.RoleList)
+                                {
+                                    <tr>
+                                        <th>@role.Id</th>
+                                        <td>@role.Name</td>
+                                        <td>
+                                            <a asp-action="DetailRole" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-outline-secondary">Detaylar</a>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <form asp-action="DeleteRole" asp-controller="Role" method="post" onsubmit="return confirm('Bu rolü silmek istediğinize emin misiniz?');">
+                                                    <input type="hidden" name="roleId" value="@role.Id" />
+                                                    <button type="submit" class="btn btn-outline-danger">Sil</button>
+                                                </form>
+
+                                                <a asp-action="UpdateRole" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-outline-info">Güncelle</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
