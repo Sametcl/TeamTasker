@@ -1,0 +1,39 @@
+﻿@model List<AppUser>
+<div class="col-lg-8">
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h4> Rol Listesi</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Email</th>
+                            <th>Islemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="role-name">@user.FullName</td>
+                                <td class="role-name">@user.Email</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <form asp-action="DeleteRole" asp-controller="Role" method="post" onsubmit="return confirm('Bu kullaniciyi silmek istediğinize emin misiniz?');">
+                                            <input type="hidden" name="roleId" value="@user.Id" />
+                                            <button type="submit" class="btn btn-outline-danger">Sil</button>
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

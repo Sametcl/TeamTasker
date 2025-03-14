@@ -1,0 +1,49 @@
+﻿@model RegisterViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center"> HESAP OLUSTUR</h4>
+                <div class="basic-form">
+                    <form asp-action="Register" asp-controller="UserAccount" method="post">
+
+                        <div class="form-group">
+                            <label asp-for="Name">Adınız</label>
+                            <input asp-for="Name" class="form-control" placeholder="Adınızı girin">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SurName">Soyadınız</label>
+                            <input asp-for="SurName" class="form-control" placeholder="Soyadınızı girin">
+                            <span asp-validation-for="SurName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email">E-posta</label>
+                            <input asp-for="Email" class="form-control" placeholder="email@example.com">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password">Şifre</label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Şifrenizi girin">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="mr-sm-2" asp-for="RoleName">Rol Seçin</label>
+                            <select class="custom-select mr-sm-2" asp-for="RoleName" asp-items="Model.Roles">
+                                <option value="">Rol Seçiniz</option>
+                            </select>
+                            <span asp-validation-for="RoleName" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark">Hesap Olustur</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

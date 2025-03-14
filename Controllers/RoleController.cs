@@ -12,10 +12,12 @@ namespace TeamTasker.Controllers
     public class RoleController : Controller
     {
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public RoleController(RoleManager<AppRole> roleManager)
+        public RoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -67,25 +69,48 @@ namespace TeamTasker.Controllers
             var role = await _roleManager.FindByIdAsync(id);
             if (role == null)
             {
-                return NotFound(); // Eğer rol bulunamazsa hata döndür
+                return NotFound(); 
             }
 
             if (ModelState.IsValid)
             {
-                role.Name = roleName; // Rol adını güncelle
-                var result = await _roleManager.UpdateAsync(role); // Güncelleme yap
+                role.Name = roleName;
+                var result = await _roleManager.UpdateAsync(role); 
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index"); // Güncelleme başarılıysa listeye geri dön
+                    return RedirectToAction("Index"); 
                 }
-
-                // Güncelleme başarısızsa hata mesajı göster
                 ModelState.AddModelError("", "Güncelleme başarısız!");
             }
 
             return View(role);
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> UsersInRole(string roleId)
+        {
+            
+
+            AppRole? role = await _roleManager.FindByIdAsync(roleId);
+            if (role == null)
+            {
+                return NotFound(); 
+            }
+
+            var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
+            if (usersInRole == null)
+            {
+                usersInRole = new List<AppUser>();
+            }
+
+           
+
+            return View(usersInRole);
+        }
+
 
     }
 }

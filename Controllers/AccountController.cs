@@ -38,11 +38,11 @@ namespace TeamTasker.Controllers
                 return View(model);
             }
 
-            AppUser? user = await _userManager.FindByEmailAsync(model.Email);
+            AppUser? user = await _userManager.FindByEmailAsync(model.Email ?? string.Empty);
             if (user != null)
             {
                 await _signInManager.SignOutAsync();
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, true);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password ?? string.Empty, true, true);
                 if (result.Succeeded)
                 {
                     ViewData["FullName"] = user?.FullName;
@@ -53,41 +53,16 @@ namespace TeamTasker.Controllers
             return View(model);
         }
 
-
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = new AppUser { UserName = model.Email, Email = model.Email, Name = model.Name, SurName = model.SurName };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Login", "Account");
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-            return View(model);
-        }
-        
-
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login","Account");
         }
 
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

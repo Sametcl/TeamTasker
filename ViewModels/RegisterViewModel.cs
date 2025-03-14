@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+using TeamTasker.Models;
 
 namespace TeamTasker.ViewModels
 {
@@ -17,5 +19,11 @@ namespace TeamTasker.ViewModels
         [Required(ErrorMessage = "Şifre alanı zorunludur.")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
+
+        [Required(ErrorMessage = "Lütfen bir rol seçiniz.")]
+        public string RoleName { get; set; } = "calisan";
+
+        public List<SelectListItem>? Roles { get; set; }
+
     }
 }

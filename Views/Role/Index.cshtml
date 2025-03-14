@@ -41,7 +41,7 @@
                                         <th>@role.Id</th>
                                         <td class="role-name">@role.Name</td>
                                         <td>
-                                            <a asp-action="DetailRole" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-outline-secondary">Detaylar</a>
+                                            <a asp-action="UsersInRole" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-outline-secondary">@role.Id</a>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center gap-3">
@@ -49,7 +49,7 @@
                                                     <input type="hidden" name="roleId" value="@role.Id" />
                                                     <button type="submit" class="btn btn-outline-danger">Sil</button>
                                                 </form>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editRoleModal" onclick="openEditModal('@role.Id', '@role.Name')">
+                                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editRoleModal" onclick="openEditModal('@role.Id', '@role.Name')">
                                                     Güncelle
                                                 </button>
                                             </div>
@@ -65,7 +65,6 @@
     </div>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="editRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
