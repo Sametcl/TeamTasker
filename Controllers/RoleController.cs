@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using TeamTasker.Models;
 using TeamTasker.ViewModels;
 
@@ -58,11 +59,31 @@ namespace TeamTasker.Controllers
             return View();
         }
 
-        //devam edecek 
-        [HttpGet]
-        public IActionResult UpdateRole(string roleid)
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRole(string id, string roleName)
         {
-            var role = _roleManager.FindByIdAsync(roleid);
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return NotFound(); // Eğer rol bulunamazsa hata döndür
+            }
+
+            if (ModelState.IsValid)
+            {
+                role.Name = roleName; // Rol adını güncelle
+                var result = await _roleManager.UpdateAsync(role); // Güncelleme yap
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index"); // Güncelleme başarılıysa listeye geri dön
+                }
+
+                // Güncelleme başarısızsa hata mesajı göster
+                ModelState.AddModelError("", "Güncelleme başarısız!");
+            }
+
             return View(role);
         }
 

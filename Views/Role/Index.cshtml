@@ -32,7 +32,6 @@
                                     <th>Rol Adi</th>
                                     <th>Rol Sahipleri</th>
                                     <th>Islemler</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,18 +39,19 @@
                                 {
                                     <tr>
                                         <th>@role.Id</th>
-                                        <td>@role.Name</td>
+                                        <td class="role-name">@role.Name</td>
                                         <td>
                                             <a asp-action="DetailRole" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-outline-secondary">Detaylar</a>
                                         </td>
                                         <td>
-                                            <div class="d-flex align-items-center gap-2">
+                                            <div class="d-flex align-items-center gap-3">
                                                 <form asp-action="DeleteRole" asp-controller="Role" method="post" onsubmit="return confirm('Bu rolü silmek istediğinize emin misiniz?');">
                                                     <input type="hidden" name="roleId" value="@role.Id" />
                                                     <button type="submit" class="btn btn-outline-danger">Sil</button>
                                                 </form>
-
-                                                <a asp-action="UpdateRole" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-outline-info">Güncelle</a>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editRoleModal" onclick="openEditModal('@role.Id', '@role.Name')">
+                                                    Güncelle
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -64,3 +64,48 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="editRoleModal" tabindex="-1" role="dialog" aria-labelledby="editRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRoleModalLabel">Rolü Güncelle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="UpdateRole">
+                    <div class="form-group">
+                        <label for="editRoleId" class="col-form-label">Id:</label>
+                        <input type="text" class="form-control" name="id" id="editRoleId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRoleName" class="col-form-label">Rol Adı:</label>
+                        <input type="text" class="form-control" name="roleName" id="editRoleName">
+                    </div>
+                    <button type="submit" class="btn btn-primary ">Güncelle</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedRow = null;
+
+    function openEditModal(roleId, roleName) {
+        document.getElementById("editRoleId").value = roleId;
+        document.getElementById("editRoleName").value = roleName;
+
+        let rows = document.querySelectorAll("tbody tr");
+        rows.forEach(row => {
+            if (row.cells[0].innerText === roleId) {
+                selectedRow = row;
+            }
+        });
+    }
+</script>
